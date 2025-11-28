@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import type { Category } from "@/data/mockData";
+import type { Category } from "@/types/database";
 
 interface CategoryCardProps {
   category: Category;
@@ -23,7 +23,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category }) => {
         {category.name}
       </h3>
       <p className="text-sm text-muted-foreground">
-        {category.productCount} items
+        {category.product_count} items
       </p>
     </Link>
   );

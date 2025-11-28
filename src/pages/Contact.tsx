@@ -1,13 +1,45 @@
-import React from "react";
+import React, { useState } from "react";
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { contactApi } from "@/db/api";
 
 const Contact: React.FC = () => {
-  const handleSubmit = (e: React.FormEvent) => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: ""
+  });
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
+    setError("");
+    setSuccess(false);
+
+    try {
+      await contactApi.submit(formData);
+      setSuccess(true);
+      setFormData({ name: "", email: "", message: "" });
+      setTimeout(() => setSuccess(false), 5000);
+    } catch (err) {
+      setError("Failed to send message. Please try again.");
+      console.error("Contact form error:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }));
   };
 
   return (
@@ -30,10 +62,23 @@ const Contact: React.FC = () => {
               Send Us a Message
             </h2>
             <form onSubmit={handleSubmit} className="space-y-6">
+              {success && (
+                <div className="bg-primary/10 border border-primary text-primary px-4 py-3 rounded-md">
+                  Thank you for your message! We'll get back to you soon.
+                </div>
+              )}
+              {error && (
+                <div className="bg-destructive/10 border border-destructive text-destructive px-4 py-3 rounded-md">
+                  {error}
+                </div>
+              )}
               <div>
                 <Label htmlFor="name">Name</Label>
                 <Input
+                  name="name"
                   id="name"
+                  value={formData.name}
+                  onChange={handleChange}
                   type="text"
                   placeholder="Your name"
                   required
@@ -43,7 +88,10 @@ const Contact: React.FC = () => {
               <div>
                 <Label htmlFor="email">Email</Label>
                 <Input
+                  name="email"
                   id="email"
+                  value={formData.email}
+                  onChange={handleChange}
                   type="email"
                   placeholder="your.email@example.com"
                   required
@@ -53,15 +101,18 @@ const Contact: React.FC = () => {
               <div>
                 <Label htmlFor="message">Message</Label>
                 <Textarea
+                  name="message"
                   id="message"
                   placeholder="Tell us how we can help you..."
+                  value={formData.message}
+                  onChange={handleChange}
                   rows={6}
                   required
                   className="mt-2"
                 />
               </div>
-              <Button type="submit" size="lg" className="w-full bg-primary hover:bg-primary/90">
-                Send Message
+              <Button type="submit" size="lg" className="w-full bg-primary hover:bg-primary/90" disabled={loading}>
+                {loading ? "Sending..." : "Send Message"}
               </Button>
             </form>
           </div>

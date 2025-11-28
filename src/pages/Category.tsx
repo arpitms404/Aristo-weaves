@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import {
   Select,
@@ -8,18 +8,40 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import ProductCard from "@/components/ProductCard";
-import { products, categories } from "@/data/mockData";
+import { productsApi, categoriesApi } from "@/db/api";
+import type { Product, Category as CategoryType } from "@/types/database";
 
 const Category: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const [sortBy, setSortBy] = useState("featured");
+  const [category, setCategory] = useState<CategoryType | null>(null);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const category = categories.find(c => c.slug === slug);
-  const categoryProducts = products.filter(p =>
-    p.category.toLowerCase().replace(/\s+/g, '-') === slug
-  );
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [categoriesData, productsData] = await Promise.all([
+          categoriesApi.getAll(),
+          productsApi.getAll()
+        ]);
+        const foundCategory = categoriesData.find(c => c.slug === slug);
+        setCategory(foundCategory || null);
+        const categoryProducts = productsData.filter(p =>
+          p.category?.toLowerCase().replace(/\s+/g, '-') === slug
+        );
+        setProducts(categoryProducts);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const sortedProducts = [...categoryProducts].sort((a, b) => {
+    fetchData();
+  }, [slug]);
+
+  const sortedProducts = [...products].sort((a, b) => {
     switch (sortBy) {
       case "price-low":
         return a.price - b.price;
@@ -28,11 +50,22 @@ const Category: React.FC = () => {
       case "rating":
         return b.rating - a.rating;
       case "newest":
-        return (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0);
+        return (b.is_new ? 1 : 0) - (a.is_new ? 1 : 0);
       default:
         return 0;
     }
   });
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!category) {
     return (
@@ -50,7 +83,7 @@ const Category: React.FC = () => {
             {category.name}
           </h1>
           <p className="text-muted-foreground">
-            {categoryProducts.length} products available
+            {products.length} products available
           </p>
         </div>
       </div>

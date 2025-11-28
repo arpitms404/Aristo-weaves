@@ -1,16 +1,52 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Star, Heart, Share2, Minus, Plus, ShoppingCart, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ProductCard from "@/components/ProductCard";
-import { products } from "@/data/mockData";
+import { productsApi } from "@/db/api";
+import type { Product } from "@/types/database";
 
 const ProductDetail: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
-  const product = products.find(p => p.slug === slug);
+  const [product, setProduct] = useState<Product | null>(null);
+  const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const allProducts = await productsApi.getAll();
+        const foundProduct = allProducts.find(p => p.slug === slug);
+        setProduct(foundProduct || null);
+        if (foundProduct) {
+          const related = allProducts
+            .filter(p => p.category === foundProduct.category && p.id !== foundProduct.id)
+            .slice(0, 4);
+          setRelatedProducts(related);
+        }
+      } catch (error) {
+        console.error('Error fetching product:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [slug]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!product) {
     return (
@@ -24,10 +60,6 @@ const ProductDetail: React.FC = () => {
       </div>
     );
   }
-
-  const relatedProducts = products
-    .filter(p => p.category === product.category && p.id !== product.id)
-    .slice(0, 4);
 
   const images = product.images || [product.image];
 
@@ -100,10 +132,10 @@ const ProductDetail: React.FC = () => {
               <span className="text-4xl font-bold text-foreground">
                 ${product.price}
               </span>
-              {product.originalPrice && (
+              {product.original_price && (
                 <>
                   <span className="text-2xl text-muted-foreground line-through">
-                    ${product.originalPrice}
+                    ${product.original_price}
                   </span>
                   <span className="px-3 py-1 bg-primary text-primary-foreground text-sm font-medium rounded-full">
                     Save {product.discount}%
@@ -114,11 +146,11 @@ const ProductDetail: React.FC = () => {
 
             <div className="mb-6">
               <div className="flex items-center gap-2 mb-2">
-                {product.inStock ? (
+                {product.in_stock ? (
                   <>
                     <Check className="h-5 w-5 text-primary" />
                     <span className="text-sm font-medium text-primary">
-                      In Stock ({product.stockCount} available)
+                      In Stock ({product.stock_count} available)
                     </span>
                   </>
                 ) : (
@@ -152,8 +184,8 @@ const ProductDetail: React.FC = () => {
                 <Button
                   variant="ghost"
                   size="icon"
-                  onClick={() => setQuantity(Math.min(product.stockCount || 99, quantity + 1))}
-                  disabled={quantity >= (product.stockCount || 99)}
+                  onClick={() => setQuantity(Math.min(product.stock_count || 99, quantity + 1))}
+                  disabled={quantity >= (product.stock_count || 99)}
                 >
                   <Plus className="h-4 w-4" />
                 </Button>
@@ -164,7 +196,7 @@ const ProductDetail: React.FC = () => {
               <Button
                 size="lg"
                 className="flex-1 bg-primary hover:bg-primary/90"
-                disabled={!product.inStock}
+                disabled={!product.in_stock}
               >
                 <ShoppingCart className="h-5 w-5 mr-2" />
                 Add to Cart
@@ -172,7 +204,7 @@ const ProductDetail: React.FC = () => {
               <Button
                 size="lg"
                 className="flex-1 bg-secondary hover:bg-secondary/90"
-                disabled={!product.inStock}
+                disabled={!product.in_stock}
               >
                 Buy Now
               </Button>

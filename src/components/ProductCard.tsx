@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Star, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import type { Product } from "@/data/mockData";
+import type { Product } from "@/types/database";
 
 interface ProductCardProps {
   product: Product;
@@ -25,7 +25,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             -{product.discount}%
           </Badge>
         )}
-        {product.isNew && (
+        {product.is_new && (
           <Badge className="absolute top-3 right-3 bg-secondary text-secondary-foreground">
             New
           </Badge>
@@ -58,11 +58,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
             <span className="text-lg font-bold text-foreground">
-              ${product.price}
+              ${product.price.toFixed(2)}
             </span>
-            {product.originalPrice && (
+            {product.original_price && (
               <span className="text-sm text-muted-foreground line-through">
-                ${product.originalPrice}
+                ${product.original_price.toFixed(2)}
               </span>
             )}
           </div>

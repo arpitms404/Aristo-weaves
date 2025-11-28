@@ -7,15 +7,42 @@ import ProductCard from "@/components/ProductCard";
 import CategoryCard from "@/components/CategoryCard";
 import TestimonialCard from "@/components/TestimonialCard";
 import BlogCard from "@/components/BlogCard";
-import { products, categories, testimonials, blogPosts } from "@/data/mockData";
+import { productsApi, categoriesApi, blogApi } from "@/db/api";
+import { testimonials } from "@/data/mockData";
+import type { Product, Category, BlogPost } from "@/types/database";
 
 const Home: React.FC = () => {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
+  const [loading, setLoading] = useState(true);
   const [timeLeft, setTimeLeft] = useState({
     days: 2,
     hours: 15,
     minutes: 30,
     seconds: 45
   });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [productsData, categoriesData, blogData] = await Promise.all([
+          productsApi.getAll({ limit: 8 }),
+          categoriesApi.getAll(),
+          blogApi.getAll(3)
+        ]);
+        setProducts(productsData);
+        setCategories(categoriesData);
+        setBlogPosts(blogData);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -36,10 +63,21 @@ const Home: React.FC = () => {
     return () => clearInterval(timer);
   }, []);
 
-  const latestProducts = products.filter(p => p.isNew).slice(0, 4);
+  const latestProducts = products.filter(p => p.is_new).slice(0, 4);
   const popularProducts = products.filter(p => p.rating >= 4.7).slice(0, 4);
-  const bestSellers = products.filter(p => p.isBestSeller).slice(0, 4);
-  const dealProduct = products.find(p => p.dealEndTime);
+  const bestSellers = products.filter(p => p.is_best_seller).slice(0, 4);
+  const dealProduct = products.find(p => p.deal_end_time);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -230,9 +268,9 @@ const Home: React.FC = () => {
                     <span className="text-4xl font-bold text-foreground">
                       ${dealProduct.price}
                     </span>
-                    {dealProduct.originalPrice && (
+                    {dealProduct.original_price && (
                       <span className="text-2xl text-muted-foreground line-through">
-                        ${dealProduct.originalPrice}
+                        ${dealProduct.original_price}
                       </span>
                     )}
                   </div>

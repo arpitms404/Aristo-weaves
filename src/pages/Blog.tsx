@@ -1,12 +1,42 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import BlogCard from "@/components/BlogCard";
-import { blogPosts } from "@/data/mockData";
+import { blogApi } from "@/db/api";
+import type { BlogPost } from "@/types/database";
 
 const Blog: React.FC = () => {
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const posts = await blogApi.getAll();
+        setBlogPosts(posts);
+      } catch (error) {
+        console.error('Error fetching blog posts:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPosts();
+  }, []);
+
   const recentPosts = blogPosts.slice(0, 3);
   const categories = Array.from(new Set(blogPosts.map(p => p.category)));
-  const allTags = Array.from(new Set(blogPosts.flatMap(p => p.tags)));
+  const allTags = Array.from(new Set(blogPosts.flatMap(p => p.tags || [])));
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -45,7 +75,7 @@ const Blog: React.FC = () => {
                       {post.title}
                     </h4>
                     <p className="text-xs text-muted-foreground mt-1">
-                      {new Date(post.date).toLocaleDateString()}
+                      {new Date(post.created_at).toLocaleDateString()}
                     </p>
                   </Link>
                 ))}

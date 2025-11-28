@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Filter } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -12,9 +12,22 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import ProductCard from "@/components/ProductCard";
-import { products, categories, materials, colors, priceRanges } from "@/data/mockData";
+import { productsApi, categoriesApi } from "@/db/api";
+import type { Product, Category } from "@/types/database";
+
+const materials = ["Wool", "Cotton", "Silk", "Synthetic", "Jute"];
+const colors = ["Red", "Blue", "Green", "Beige", "Gray", "Multi"];
+const priceRanges = [
+  { label: "Under $100", min: 0, max: 100 },
+  { label: "$100 - $300", min: 100, max: 300 },
+  { label: "$300 - $500", min: 300, max: 500 },
+  { label: "Over $500", min: 500, max: 10000 }
+];
 
 const Shop: React.FC = () => {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [loading, setLoading] = useState(true);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedMaterials, setSelectedMaterials] = useState<string[]>([]);
   const [selectedColors, setSelectedColors] = useState<string[]>([]);
@@ -22,14 +35,33 @@ const Shop: React.FC = () => {
   const [sortBy, setSortBy] = useState("featured");
   const [showFilters, setShowFilters] = useState(false);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [productsData, categoriesData] = await Promise.all([
+          productsApi.getAll(),
+          categoriesApi.getAll()
+        ]);
+        setProducts(productsData);
+        setCategories(categoriesData);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const filteredProducts = products.filter(product => {
-    if (selectedCategories.length > 0 && !selectedCategories.includes(product.category)) {
+    if (selectedCategories.length > 0 && !selectedCategories.includes(product.category || '')) {
       return false;
     }
-    if (selectedMaterials.length > 0 && !selectedMaterials.includes(product.material)) {
+    if (selectedMaterials.length > 0 && !selectedMaterials.includes(product.material || '')) {
       return false;
     }
-    if (selectedColors.length > 0 && !product.color.some(c => selectedColors.includes(c))) {
+    if (selectedColors.length > 0 && !product.color?.some(c => selectedColors.includes(c))) {
       return false;
     }
     if (product.price < priceRange[0] || product.price > priceRange[1]) {
@@ -47,11 +79,22 @@ const Shop: React.FC = () => {
       case "rating":
         return b.rating - a.rating;
       case "newest":
-        return (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0);
+        return (b.is_new ? 1 : 0) - (a.is_new ? 1 : 0);
       default:
         return 0;
     }
   });
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   const toggleCategory = (category: string) => {
     setSelectedCategories(prev =>
@@ -93,7 +136,7 @@ const Shop: React.FC = () => {
                 htmlFor={`cat-${category.id}`}
                 className="text-sm cursor-pointer"
               >
-                {category.name} ({category.productCount})
+                {category.name} ({category.product_count})
               </Label>
             </div>
           ))}

@@ -1,11 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Facebook, Instagram, Twitter, Mail } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { newsletterApi } from "@/db/api";
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+
+    setLoading(true);
+    setMessage("");
+
+    try {
+      await newsletterApi.subscribe(email);
+      setMessage("Thank you for subscribing!");
+      setEmail("");
+      setTimeout(() => setMessage(""), 5000);
+    } catch (err) {
+      setMessage("Subscription failed. Please try again.");
+      console.error("Newsletter subscription error:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <footer className="bg-card border-t border-border">
@@ -20,16 +44,26 @@ const Footer: React.FC = () => {
                 Get the latest updates on new arrivals and special offers
               </p>
             </div>
-            <div className="flex gap-2 w-full xl:w-auto max-w-md">
-              <Input
-                type="email"
-                placeholder="Enter your email"
-                className="bg-card"
-              />
-              <Button className="bg-primary hover:bg-primary/90">
-                Subscribe
-              </Button>
-            </div>
+            <form onSubmit={handleSubscribe} className="flex flex-col gap-2 w-full xl:w-auto max-w-md">
+              <div className="flex gap-2">
+                <Input
+                  type="email"
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  className="bg-card"
+                />
+                <Button type="submit" className="bg-primary hover:bg-primary/90" disabled={loading}>
+                  {loading ? "..." : "Subscribe"}
+                </Button>
+              </div>
+              {message && (
+                <p className={`text-sm ${message.includes("Thank") ? "text-primary" : "text-destructive"}`}>
+                  {message}
+                </p>
+              )}
+            </form>
           </div>
         </div>
       </div>

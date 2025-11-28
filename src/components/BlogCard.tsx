@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Calendar, User } from "lucide-react";
-import type { BlogPost } from "@/data/mockData";
+import type { BlogPost } from "@/types/database";
 
 interface BlogCardProps {
   post: BlogPost;
@@ -23,7 +23,7 @@ const BlogCard: React.FC<BlogCardProps> = ({ post }) => {
         <div className="flex items-center gap-4 text-xs text-muted-foreground mb-3">
           <div className="flex items-center gap-1">
             <Calendar className="h-3 w-3" />
-            <span>{new Date(post.date).toLocaleDateString()}</span>
+            <span>{new Date(post.created_at).toLocaleDateString()}</span>
           </div>
           <div className="flex items-center gap-1">
             <User className="h-3 w-3" />
