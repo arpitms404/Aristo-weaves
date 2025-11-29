@@ -2,7 +2,7 @@
 
 ## 📁 File Structure Overview
 
-This document provides a complete index of all backend-related files in the Exora Rug e-commerce project.
+This document provides a complete index of all backend-related files in the Aristo Weaves and Art e-commerce project.
 
 ---
 

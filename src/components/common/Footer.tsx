@@ -72,7 +72,7 @@ const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8">
           <div>
             <h3 className="text-lg font-serif font-bold text-foreground mb-4">
-              Exora Rug
+              Aristo Weaves and Art
             </h3>
             <p className="text-sm text-muted-foreground mb-4">
               Premium handcrafted carpets and rugs. Timeless textures, natural fibers, and elegant home aesthetics.
@@ -180,7 +180,7 @@ const Footer: React.FC = () => {
         <div className="mt-12 pt-8 border-t border-border">
           <div className="flex flex-col xl:flex-row items-center justify-between gap-4">
             <p className="text-sm text-muted-foreground text-center xl:text-left">
-              {currentYear} Exora Rug
+              {currentYear} Aristo Weaves and Art
             </p>
             <div className="flex items-center gap-4">
               <img

@@ -262,7 +262,7 @@ export const testimonials: Testimonial[] = [
     name: 'Emily Chen',
     avatar: 'https://miaoda-site-img.s3cdn.medo.dev/images/09a7b756-49f0-4288-a458-610f491decd5.jpg',
     rating: 4,
-    text: 'Beautiful handcrafted rug with amazing attention to detail. It\'s the perfect centerpiece for our dining room. Highly recommend Exora Rug!',
+    text: 'Beautiful handcrafted rug with amazing attention to detail. It\'s the perfect centerpiece for our dining room. Highly recommend Aristo Weaves and Art!',
     date: '2025-11-05'
   }
 ];

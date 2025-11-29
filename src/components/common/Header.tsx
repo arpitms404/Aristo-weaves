@@ -28,7 +28,7 @@ const Header: React.FC = () => {
         <div className="flex items-center justify-between h-16 xl:h-20">
           <Link to="/" className="flex-shrink-0">
             <h1 className="text-xl xl:text-2xl font-serif font-bold text-foreground tracking-wide">
-              Exora Rug
+              Aristo Weaves and Art
             </h1>
           </Link>
 

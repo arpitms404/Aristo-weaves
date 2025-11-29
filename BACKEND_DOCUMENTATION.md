@@ -1,8 +1,8 @@
-# Exora Rug E-commerce Backend System Documentation
+# Aristo Weaves and Art E-commerce Backend System Documentation
 
 ## Overview
 
-The Exora Rug e-commerce website is now fully integrated with a Supabase backend database system. This document provides a comprehensive overview of the backend architecture, database schema, API layer, and integration points.
+The Aristo Weaves and Art e-commerce website is now fully integrated with a Supabase backend database system. This document provides a comprehensive overview of the backend architecture, database schema, API layer, and integration points.
 
 ## Technology Stack
 
@@ -695,7 +695,7 @@ Currently, RLS is not enabled as this is a public e-commerce site. All data is p
 
 ## Conclusion
 
-The Exora Rug e-commerce backend system is now fully integrated with Supabase, providing a robust, type-safe, and scalable foundation for the application. All pages are connected to the database, forms are functional, and the codebase is free of TypeScript errors.
+The Aristo Weaves and Art e-commerce backend system is now fully integrated with Supabase, providing a robust, type-safe, and scalable foundation for the application. All pages are connected to the database, forms are functional, and the codebase is free of TypeScript errors.
 
 The system is ready for production deployment and can be extended with additional features as the business grows.
 

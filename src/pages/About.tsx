@@ -7,7 +7,7 @@ const About: React.FC = () => {
       <div className="bg-muted py-16">
         <div className="max-w-4xl mx-auto px-4 xl:px-8 text-center">
           <h1 className="text-3xl xl:text-5xl font-serif font-bold text-foreground mb-4">
-            About Exora Rug
+            About Aristo Weaves and Art
           </h1>
           <p className="text-lg text-muted-foreground">
             Crafting timeless elegance through artisan tradition
@@ -23,7 +23,7 @@ const About: React.FC = () => {
             </h2>
             <div className="space-y-4 text-muted-foreground leading-relaxed">
               <p>
-                Founded with a passion for preserving traditional craftsmanship, Exora Rug has been bringing the finest handcrafted rugs to homes around the world for over two decades.
+                Founded with a passion for preserving traditional craftsmanship, Aristo Weaves and Art has been bringing the finest handcrafted rugs to homes around the world for over two decades.
               </p>
               <p>
                 Each rug in our collection tells a story of skilled artisans who have perfected their craft over generations. We work directly with master weavers, ensuring fair trade practices and supporting traditional weaving communities.

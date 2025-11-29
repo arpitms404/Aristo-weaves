@@ -1,4 +1,4 @@
-# Exora Rug Website Implementation Plan
+# Aristo Weaves and Art Website Implementation Plan
 
 ## Overview
 Building a premium handcrafted carpet and rug e-commerce website with luxury aesthetic, minimal design, and comprehensive product showcase features.
@@ -6,7 +6,7 @@ Building a premium handcrafted carpet and rug e-commerce website with luxury aes
 ## Implementation Steps
 
 ### Phase 1: Design System & Foundation
-- [x] 1.1 Update design system (index.css) with Exora Rug color palette
+- [x] 1.1 Update design system (index.css) with Aristo Weaves and Art color palette
 - [x] 1.2 Update tailwind.config.js with custom design tokens
 - [x] 1.3 Create mock data structure for products, categories, testimonials, blog posts
 
