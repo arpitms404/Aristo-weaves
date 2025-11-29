@@ -188,7 +188,7 @@ sed -i 's/Aristo Weaves and Art/Exora Rug/g' <files>
 | Location | Old Value | New Value |
 |----------|-----------|-----------|
 | Page Title | (Not set) | Aristo Weaves and Art - Premium Handcrafted Rugs & Carpets |
-| Header Logo | Exora Rug | Aristo Weaves and Art |
+| Header Logo | Exora Rug |  and Art |
 | Footer Brand | Exora Rug | Aristo Weaves and Art |
 | Copyright | 2025 Exora Rug | 2025 Aristo Weaves and Art |
 | About Page Title | About Exora Rug | About Aristo Weaves and Art |

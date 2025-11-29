@@ -3,9 +3,10 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "dev": "echo 'Do not use this command, only use lint to check'",
-    "build": "echo 'Do not use this command, only use lint to check'",
-    "lint": "tsgo -p tsconfig.check.json; npx biome lint; .rules/check.sh;npx tailwindcss -i ./src/index.css -o /dev/null 2>&1 | grep -E '^(CssSyntaxError|Error):.*' || true;.rules/testBuild.sh"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "tsgo -p tsconfig.check.json; npx biome lint; .rules/check.sh; npx tailwindcss -i ./src/index.css -o /dev/null 2>&1 | grep -E '^(CssSyntaxError|Error):.*' || true; .rules/testBuild.sh"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
@@ -50,9 +51,9 @@
     "miaoda-sc-plugin": "1.0.31",
     "next-themes": "^0.4.6",
     "qrcode": "^1.5.4",
-    "react": "^18.0.0",
+    "react": "^18.3.1",
     "react-day-picker": "^8.10.1",
-    "react-dom": "^18.0.0",
+    "react-dom": "^18.3.1",
     "react-dropzone": "^14.3.8",
     "react-helmet-async": "^2.0.5",
     "react-hook-form": "^7.66.0",
@@ -78,11 +79,11 @@
     "@typescript/native-preview": "7.0.0-dev.20251103.1",
     "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.21",
+    "miaoda-sc-plugin": "^1.0.4",
     "postcss": "^8.5.6",
     "tailwindcss": "^3.4.11",
     "typescript": "~5.9.3",
     "vite": "^5.1.4",
-    "vite-plugin-svgr": "^4.5.0",
-    "miaoda-sc-plugin": "^1.0.4"
+    "vite-plugin-svgr": "^4.5.0"
   }
 }
