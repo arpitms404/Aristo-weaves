@@ -123,6 +123,8 @@ const Contact: React.FC = () => {
                 Contact Information
               </h2>
               <div className="space-y-6">
+
+                {/* ADDRESS */}
                 <div className="flex gap-4">
                   <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
                     <MapPin className="h-6 w-6 text-primary" />
@@ -130,13 +132,14 @@ const Contact: React.FC = () => {
                   <div>
                     <h3 className="font-semibold text-foreground mb-1">Address</h3>
                     <p className="text-muted-foreground">
-                      123 Artisan Lane<br />
-                      Design District<br />
-                      New York, NY 10001
+                      21/4 Aristo Weaves Street<br />
+                      Near Textile Market<br />
+                      Surat, Gujarat 395003
                     </p>
                   </div>
                 </div>
 
+                {/* PHONE NUMBERS */}
                 <div className="flex gap-4">
                   <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
                     <Phone className="h-6 w-6 text-primary" />
@@ -144,12 +147,13 @@ const Contact: React.FC = () => {
                   <div>
                     <h3 className="font-semibold text-foreground mb-1">Phone</h3>
                     <p className="text-muted-foreground">
-                      +1 (555) 123-4567<br />
-                      +1 (555) 987-6543
+                      +91 98765 43210<br />
+                      +91 91234 56789
                     </p>
                   </div>
                 </div>
 
+                {/* EMAILS */}
                 <div className="flex gap-4">
                   <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
                     <Mail className="h-6 w-6 text-primary" />
@@ -157,12 +161,13 @@ const Contact: React.FC = () => {
                   <div>
                     <h3 className="font-semibold text-foreground mb-1">Email</h3>
                     <p className="text-muted-foreground">
-                      info@exorarug.com<br />
-                      support@exorarug.com
+                      info@aristoweaves.in<br />
+                      support@aristoweaves.in
                     </p>
                   </div>
                 </div>
 
+                {/* BUSINESS HOURS */}
                 <div className="flex gap-4">
                   <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
                     <Clock className="h-6 w-6 text-primary" />
@@ -170,8 +175,8 @@ const Contact: React.FC = () => {
                   <div>
                     <h3 className="font-semibold text-foreground mb-1">Business Hours</h3>
                     <p className="text-muted-foreground">
-                      Monday - Friday: 9:00 AM - 6:00 PM<br />
-                      Saturday: 10:00 AM - 4:00 PM<br />
+                      Monday - Friday: 10:00 AM - 7:00 PM<br />
+                      Saturday: 10:00 AM - 5:00 PM<br />
                       Sunday: Closed
                     </p>
                   </div>
@@ -184,7 +189,7 @@ const Contact: React.FC = () => {
                 Visit Our Showroom
               </h3>
               <p className="text-sm text-muted-foreground mb-4">
-                Experience our rugs in person. Our showroom features our complete collection and our expert staff can help you find the perfect rug for your space.
+                Visit our studio in Surat to explore premium handwoven rugs and get expert guidance from our team.
               </p>
               <Button variant="outline" className="w-full">
                 Schedule a Visit
