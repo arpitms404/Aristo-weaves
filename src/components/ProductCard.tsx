@@ -12,7 +12,7 @@ interface ProductCardProps {
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   return (
     <div className="group bg-card rounded-lg overflow-hidden border border-border hover-lift">
-      <Link to={`/product/${product.slug}`} className="block relative overflow-hidden">
+      <Link to={`/product/₹{product.slug}`} className="block relative overflow-hidden">
         <div className="aspect-square bg-muted">
           <img
             src={product.image}
@@ -33,7 +33,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       </Link>
 
       <div className="p-4">
-        <Link to={`/product/${product.slug}`}>
+        <Link to={`/product/₹{product.slug}`}>
           <h3 className="font-medium text-foreground mb-2 line-clamp-2 group-hover:text-primary transition-colors">
             {product.name}
           </h3>
@@ -58,11 +58,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
             <span className="text-lg font-bold text-foreground">
-              ${product.price.toFixed(2)}
+              ₹{product.price.toFixed(2)}
             </span>
+
             {product.original_price && (
               <span className="text-sm text-muted-foreground line-through">
-                ${product.original_price.toFixed(2)}
+                ₹{product.original_price.toFixed(2)}
               </span>
             )}
           </div>

@@ -88,7 +88,7 @@ const ProductDetail: React.FC = () => {
                 >
                   <img
                     src={image}
-                    alt={`${product.name} ${index + 1}`}
+                    alt={`₹{product.name} ${index + 1}`}
                     className="w-full h-full object-cover"
                   />
                 </button>
@@ -99,7 +99,7 @@ const ProductDetail: React.FC = () => {
           <div>
             <div className="mb-4">
               <Link
-                to={`/category/${product.category.toLowerCase().replace(/\s+/g, '-')}`}
+                to={`/category/₹{product.category.toLowerCase().replace(/\s+/g, '-')}`}
                 className="text-sm text-primary hover:underline"
               >
                 {product.category}
@@ -130,12 +130,12 @@ const ProductDetail: React.FC = () => {
 
             <div className="flex items-center gap-4 mb-6">
               <span className="text-4xl font-bold text-foreground">
-                ${product.price}
+                ₹{product.price}
               </span>
               {product.original_price && (
                 <>
                   <span className="text-2xl text-muted-foreground line-through">
-                    ${product.original_price}
+                    ₹{product.original_price}
                   </span>
                   <span className="px-3 py-1 bg-primary text-primary-foreground text-sm font-medium rounded-full">
                     Save {product.discount}%
